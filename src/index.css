@@ -84,6 +84,7 @@ hr { border: 0; border-top: 1px solid var(--border); margin: 16px 0; }
 .topbar nav a { padding: 7px 12px; border-radius: 8px; color: var(--muted); text-decoration: none; font-weight: 500; white-space: nowrap; }
 .topbar nav a:hover { background: var(--surface-2); color: var(--text); }
 .topbar nav a.active { background: var(--brand-soft); color: var(--brand); }
+.nav-short { display: none; }
 
 main { max-width: 1280px; margin: 0 auto; padding: 24px; }
 .page { display: flex; flex-direction: column; gap: 18px; }
@@ -98,6 +99,8 @@ main { max-width: 1280px; margin: 0 auto; padding: 24px; }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .align-start { align-items: start; }
+.grid-2 > *, .grid-3 > *, .split > * { min-width: 0; }
+.card .row.gap { flex-wrap: wrap; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
 .card.narrow { max-width: 520px; }
 .inline { display: flex; align-items: center; gap: 8px; }
@@ -317,6 +320,9 @@ textarea { width: 100%; resize: vertical; }
 .gate-pass { color: var(--good); }
 .gate-wait .diamond { background: var(--warn); }
 
+/* ---------- flow diagrams ---------- */
+.flow-frame { width: 100%; height: calc(100vh - 230px); min-height: 560px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+
 /* ---------- responsive ---------- */
 @media (max-width: 960px) {
   .split { grid-template-columns: 1fr; }
@@ -333,6 +339,8 @@ textarea { width: 100%; resize: vertical; }
   .topbar { padding: 10px 16px; }
   .topbar .brand { font-size: 0; gap: 0; }
   .topbar nav a { padding: 6px 8px; font-size: 0.9rem; }
+  .nav-long { display: none; }
+  .nav-short { display: inline; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .roadmap { grid-template-columns: 1fr; }
   .hero h1 { font-size: 1.7rem; }

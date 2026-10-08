@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage'
 import DriverPage from './pages/DriverPage'
 import OwnerPage from './pages/OwnerPage'
 import AdminPage from './pages/AdminPage'
+import FlowPage from './pages/FlowPage'
 import { useStore } from './store/store'
 
 export default function App() {
@@ -17,7 +18,8 @@ export default function App() {
           PlotPark
         </NavLink>
         <nav>
-          <NavLink to="/driver">Find parking</NavLink>
+          <NavLink to="/flow"><span className="nav-long">How it works</span><span className="nav-short">Flow</span></NavLink>
+          <NavLink to="/driver"><span className="nav-long">Find parking</span><span className="nav-short">Park</span></NavLink>
           <NavLink to="/owner">Owner</NavLink>
           <NavLink to="/admin">Admin {adminAlerts > 0 && <span className="count">{adminAlerts}</span>}</NavLink>
         </nav>
@@ -28,6 +30,7 @@ export default function App() {
           <Route path="/driver" element={<DriverPage />} />
           <Route path="/owner" element={<OwnerPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/flow" element={<FlowPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

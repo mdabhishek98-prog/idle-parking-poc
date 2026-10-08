@@ -1,0 +1,244 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "PlotPark: From Idle Land to Paid Parking",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "viewBox": [
+      1240,
+      660
+    ],
+    "output": "diagrams/build/plotpark-flow/plotpark-flow.html"
+  },
+  "lanes": [
+    {
+      "id": "driver",
+      "label": "Driver"
+    },
+    {
+      "id": "owner",
+      "label": "Landowner"
+    },
+    {
+      "id": "team",
+      "label": "Our team",
+      "variant": "exception"
+    },
+    {
+      "id": "money",
+      "label": "Payments"
+    }
+  ],
+  "phases": [
+    {
+      "id": "onboard",
+      "label": "Onboard the plot",
+      "fromCol": 0,
+      "toCol": 2
+    },
+    {
+      "id": "park",
+      "label": "Book + park",
+      "fromCol": 3,
+      "toCol": 4,
+      "variant": "emphasis"
+    },
+    {
+      "id": "settle",
+      "label": "Get paid",
+      "fromCol": 5,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "mainPath": [
+    "list",
+    "verify",
+    "kit",
+    "book",
+    "pay",
+    "payout"
+  ],
+  "nodes": [
+    {
+      "id": "list",
+      "lane": "owner",
+      "col": 0,
+      "type": "frontend",
+      "icon": "person",
+      "label": "List the plot",
+      "sublabel": "slots, hours, price",
+      "width": 140
+    },
+    {
+      "id": "verify",
+      "lane": "team",
+      "col": 1,
+      "type": "security",
+      "label": "Verify documents",
+      "sublabel": "licence + land use",
+      "width": 140
+    },
+    {
+      "id": "reject",
+      "lane": "team",
+      "col": 2,
+      "type": "security",
+      "icon": "failure",
+      "label": "Not approved",
+      "sublabel": "fix and resubmit",
+      "width": 140
+    },
+    {
+      "id": "kit",
+      "lane": "owner",
+      "col": 2,
+      "type": "frontend",
+      "icon": "flag",
+      "label": "Go live + kit",
+      "sublabel": "QR board, training",
+      "width": 140
+    },
+    {
+      "id": "book",
+      "lane": "driver",
+      "col": 3,
+      "type": "frontend",
+      "label": "Find and book",
+      "sublabel": "map, live free slots",
+      "tag": "or monthly pass",
+      "width": 140
+    },
+    {
+      "id": "pay",
+      "lane": "money",
+      "col": 3,
+      "type": "cloud",
+      "label": "Gateway checkout",
+      "sublabel": "UPI or card",
+      "width": 140
+    },
+    {
+      "id": "gate",
+      "lane": "owner",
+      "col": 4,
+      "type": "frontend",
+      "label": "Gate check-in/out",
+      "sublabel": "scan ticket QR",
+      "width": 140
+    },
+    {
+      "id": "dispute",
+      "lane": "team",
+      "col": 5,
+      "type": "security",
+      "label": "Resolve dispute",
+      "sublabel": "refund or close",
+      "width": 140
+    },
+    {
+      "id": "payout",
+      "lane": "money",
+      "col": 5,
+      "type": "database",
+      "icon": "success",
+      "label": "Nightly payout",
+      "sublabel": "owner gets 85%",
+      "tag": "15% commission",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "submit",
+      "from": "list",
+      "to": "verify",
+      "label": "submit",
+      "variant": "emphasis"
+    },
+    {
+      "id": "approve",
+      "from": "verify",
+      "to": "kit",
+      "label": "approve",
+      "variant": "emphasis"
+    },
+    {
+      "id": "decline",
+      "from": "verify",
+      "to": "reject",
+      "label": "missing",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "attract",
+      "from": "kit",
+      "to": "book",
+      "label": "drivers scan QR",
+      "variant": "default",
+      "fromSide": "top",
+      "toSide": "left"
+    },
+    {
+      "id": "checkout",
+      "from": "book",
+      "to": "pay",
+      "label": "pay",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "ticket",
+      "from": "pay",
+      "to": "gate",
+      "label": "QR ticket",
+      "variant": "default",
+      "role": "branch"
+    },
+    {
+      "id": "problem",
+      "from": "gate",
+      "to": "dispute",
+      "label": "problem?",
+      "variant": "dashed",
+      "role": "branch"
+    },
+    {
+      "id": "settle",
+      "from": "pay",
+      "to": "payout",
+      "label": "settled after check-out",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Owner keeps control",
+      "items": [
+        "Owner operates the lot and holds the trade licence",
+        "No listing or monthly fee in the pilot"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Money never sits with us",
+      "items": [
+        "Gateway splits each payment",
+        "Commission is deducted before the owner payout"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Quality gates",
+      "items": [
+        "Licence and land use checked before going live",
+        "Drivers and owners can raise disputes"
+      ]
+    }
+  ]
+}

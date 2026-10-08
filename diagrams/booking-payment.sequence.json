@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Booking, Payment and Payout Sequence",
+    "locale": "en",
+    "output": "diagrams/build/booking-payment/booking-payment.html",
+    "viewBox": [
+      1080,
+      690
+    ],
+    "column_fit": "spread",
+    "quality_profile": "showcase"
+  },
+  "participants": [
+    {
+      "id": "driver",
+      "type": "external",
+      "icon": "person",
+      "label": "Driver",
+      "sublabel": "phone browser"
+    },
+    {
+      "id": "app",
+      "type": "frontend",
+      "label": "Driver App",
+      "sublabel": "React web app"
+    },
+    {
+      "id": "store",
+      "type": "database",
+      "label": "Bookings",
+      "sublabel": "slots + tickets"
+    },
+    {
+      "id": "gateway",
+      "type": "cloud",
+      "label": "Gateway",
+      "sublabel": "split payments"
+    },
+    {
+      "id": "owner",
+      "type": "frontend",
+      "icon": "person",
+      "label": "Owner App",
+      "sublabel": "gate screen"
+    },
+    {
+      "id": "job",
+      "type": "messagebus",
+      "icon": "clock",
+      "label": "Payout Job",
+      "sublabel": "runs nightly"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 360,
+      "label": "Book + pay"
+    },
+    {
+      "from": 372,
+      "to": 468,
+      "label": "At the gate"
+    },
+    {
+      "from": 480,
+      "to": 580,
+      "label": "Nightly settlement"
+    }
+  ],
+  "messages": [
+    {
+      "id": "pick",
+      "from": "driver",
+      "to": "app",
+      "y": 165,
+      "label": "pick lot, 2 h",
+      "variant": "default"
+    },
+    {
+      "id": "check-slots",
+      "from": "app",
+      "to": "store",
+      "y": 195,
+      "label": "free slots?",
+      "variant": "default"
+    },
+    {
+      "id": "slots",
+      "from": "store",
+      "to": "app",
+      "y": 225,
+      "label": "18 free",
+      "variant": "return"
+    },
+    {
+      "id": "charge",
+      "from": "app",
+      "to": "gateway",
+      "y": 258,
+      "label": "pay ₹70 by UPI",
+      "variant": "emphasis"
+    },
+    {
+      "id": "paid",
+      "from": "gateway",
+      "to": "app",
+      "y": 288,
+      "label": "paid, split 85/15",
+      "variant": "return"
+    },
+    {
+      "id": "save",
+      "from": "app",
+      "to": "store",
+      "y": 318,
+      "label": "save booking",
+      "variant": "default"
+    },
+    {
+      "id": "ticket",
+      "from": "app",
+      "to": "driver",
+      "y": 348,
+      "label": "QR ticket",
+      "variant": "return"
+    },
+    {
+      "id": "show",
+      "from": "driver",
+      "to": "owner",
+      "y": 390,
+      "label": "show QR at gate",
+      "variant": "default"
+    },
+    {
+      "id": "checkin",
+      "from": "owner",
+      "to": "store",
+      "y": 420,
+      "label": "check in",
+      "variant": "emphasis"
+    },
+    {
+      "id": "checkout",
+      "from": "owner",
+      "to": "store",
+      "y": 454,
+      "label": "check out: completed",
+      "variant": "emphasis"
+    },
+    {
+      "id": "collect",
+      "from": "job",
+      "to": "store",
+      "y": 500,
+      "label": "unpaid completed bookings",
+      "variant": "default"
+    },
+    {
+      "id": "transfer",
+      "from": "job",
+      "to": "gateway",
+      "y": 532,
+      "label": "transfer owner share",
+      "variant": "security"
+    },
+    {
+      "id": "credited",
+      "from": "gateway",
+      "to": "owner",
+      "y": 564,
+      "label": "payout + UTR",
+      "variant": "dashed"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "app",
+      "from": 160,
+      "to": 354,
+      "type": "frontend"
+    },
+    {
+      "participant": "gateway",
+      "from": 253,
+      "to": 294,
+      "type": "cloud"
+    },
+    {
+      "participant": "owner",
+      "from": 385,
+      "to": 460,
+      "type": "frontend"
+    },
+    {
+      "participant": "job",
+      "from": 495,
+      "to": 538,
+      "type": "messagebus"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Driver side",
+      "items": [
+        "Slots are checked before payment",
+        "The QR ticket is the only thing shown at the gate"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Owner side",
+      "items": [
+        "Check-in and check-out happen on the owner's phone",
+        "Check-out marks the booking ready for payout"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Settlement",
+      "items": [
+        "One transfer per owner each night",
+        "Our 15% commission is kept back by the gateway split"
+      ]
+    }
+  ]
+}

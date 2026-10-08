@@ -18,6 +18,17 @@ npm run build
 | Admin console | `/admin` | Pilot success metrics vs targets, roadmap gates, plot verification, disputes (resolve / refund), nightly split-payout job, economics calculator (5-plot pilot model), commission & convenience-fee settings |
 | Signboard deep link | `/driver?plot=<id>` | What the QR board opens: jumps straight to booking that lot |
 
+## Flow diagrams
+
+`/flow` embeds interactive diagrams made with [Archify](https://github.com/tt-a1i/archify) (MIT): the end-to-end journey, the booking/payment sequence and the booking status lifecycle. Specs live in `diagrams/*.json`; the checked HTML is committed to `public/flow/`. To regenerate after editing a spec:
+
+```bash
+git clone --depth 1 https://github.com/tt-a1i/archify /tmp/archify
+ARCHIFY=/tmp/archify/archify/bin/archify.mjs diagrams/render.sh
+```
+
+Each render runs Archify's `finalize` gates (schema validation, delivery, provenance check and a real-browser check).
+
 ## Notes
 
 - **Frontend only.** Data is seeded (5 live plots near Indiranagar Metro and CV Raman Nagar, plus 1 pending plot and 30 days of history) and persisted in `localStorage`. Use *Admin → Settings → Reset demo data* to start over.

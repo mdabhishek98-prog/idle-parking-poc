@@ -57,6 +57,7 @@ export default function HomePage() {
           <li><b>Get paid.</b> Payments go through a regulated gateway; owners get automatic payouts minus our commission.</li>
           <li><b>Track.</b> Owners see bookings, earnings and occupancy on a dashboard.</li>
         </ol>
+        <Link className="btn btn-sm" to="/flow">See the interactive flow diagrams →</Link>
       </section>
 
       <p className="small muted disclaimer">

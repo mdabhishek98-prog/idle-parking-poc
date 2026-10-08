@@ -22,9 +22,21 @@ npm run build
 
 - **Frontend only.** Data is seeded (5 live plots near Indiranagar Metro and CV Raman Nagar, plus 1 pending plot and 30 days of history) and persisted in `localStorage`. Use *Admin → Settings → Reset demo data* to start over.
 - **Payments are simulated.** The checkout mimics a gateway with split payouts (commission deducted from the owner's share). For production, use Razorpay Route or Cashfree split payouts.
-- **Map** uses Leaflet + OpenStreetMap tiles. The doc suggests Google Maps for production.
+- **Map** uses Google Maps when `VITE_GOOGLE_MAPS_API_KEY` is set at build time, otherwise Leaflet + OpenStreetMap. See *Google Maps* below.
 - Suggested production stack (from the doc): Spring Boot 3 + PostgreSQL/PostGIS, Razorpay/Cashfree, Airflow for nightly payout & occupancy jobs. `src/store/store.tsx` is the seam where API calls would replace local state.
 
 ## Deployment
 
 Every push to `main` builds and deploys to GitHub Pages via `.github/workflows/deploy.yml` (pull requests build only).
+
+## Google Maps
+
+1. In [Google Cloud Console](https://console.cloud.google.com/): create a project, enable billing, and enable **Maps JavaScript API**.
+2. Create an API key (APIs & Services → Credentials) and restrict it:
+   - Application restriction: **HTTP referrers** → `http://localhost:5180/*` and `https://<user>.github.io/idle-parking-poc/*`
+   - API restriction: **Maps JavaScript API** only
+3. Local: `cp .env.example .env.local`, paste the key, restart `npm run dev`.
+4. Deployed: add a repository secret `VITE_GOOGLE_MAPS_API_KEY` (Settings → Secrets and variables → Actions), then re-run the deploy workflow.
+5. Optional: create a Map ID (Map Management) for custom styling and set `VITE_GOOGLE_MAPS_MAP_ID`; otherwise `DEMO_MAP_ID` is used.
+
+Maps JavaScript keys are always visible in the browser; the referrer restriction is what protects them.
